@@ -10,8 +10,9 @@ options:
 #### 1) Registration and login 
 1) registration 
     - successful normal registration
-    - fields constraints validations (client side(in browser)/server side) (valid email + TLD, valid username, no duplicates on emails/usernames, password complexity, min/max field sizes)
+    - fields constraints validations (client side(in browser)/server side) (valid email + TLD, valid username, no duplicates on emails/usernames, password complexity, min/max field sizes) [UI + API constraints]
     - expected time to get verification email (1/2/5/10 mins)
+    
 
 2) user verification
     - if there is a verification code:
@@ -22,6 +23,11 @@ options:
         - verification code is not accepted after it's expired (if it has expiration)
 
 3) password reset
+    - cant use old password after reseting
+    - cant reset password for non registered emails/usernames
+    - ? password reset for registered and non confirmed emails/users
+    - (? if acount deletion possible) cant reset password after deleting user
+
 4) automatic logout during login on different session
 
 #### 2) Product Search and Filtering
