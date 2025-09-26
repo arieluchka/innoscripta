@@ -1,18 +1,29 @@
 ## TechShopBD - Case Study
 
-
+**Test cases** and scripts can be found[ here](case_study.xlsx).
 
 Documented bugs can be found [here](bugs/bug_reports.md).
 
 Suggestions for improvements can be found [here](Improvements/improvements.md).
 
-Critical Bugs:
-1) The OTP code on password resets can be easily bruteforced to hack into existing accounts.
+<br>
+
+
+<br>
+
+PLEASE NOTE!
+
+There were a lot of bugs/suggestions found, that i didnt have time to add to the report.
+
+Evidences to these can be found [here](<unsorted evidence>), [here](<bugs/Bug evidences>)  and [here](<Improvements/.evidences/Registration and login>).
+
+<br>
+<br>
+<br>
 
 Notes to take into accounts:
 1) some bug reports might be more suitable as a suggestion (instead of a bug). As i see it, if there is an inconsistent behavior, it is bug (even if a very insignificant one) #TODO=link to an example of a bug report
 2) for "Product Search and Filtering" it's hard to write accuracy/logical test cases, as it is very depended on the Product requirements. 
-
 3) compatibility can tested by parameterizing tests and executing every test on required browsers/different screen sizes/viewports.
 
 
