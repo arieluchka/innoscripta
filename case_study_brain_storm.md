@@ -1,8 +1,12 @@
 SITE URL = `https://techshopbd.com/`
 user1:
     email: ariel.agra.archive@gmail.com
-    password: test123A!
+    password: Aa123!9fas
+    new: qwerty_123!A
 
+user2:
+    email: ariel.agra@gmail.com
+    password: banana!A2
 
 options:
 - Search
@@ -15,6 +19,8 @@ options:
 1) press "sign in" button
 2) enter new email -> redirected to sign up page
 3) Enter full name, phone, password
+4) press Send OTP
+5) enter code from email and press "Registration"
 
 
 ---
@@ -22,30 +28,148 @@ options:
 ## 1) Registration and login 
 ### 1) registration 
 - successful normal registration
-- fields constraints validations (client side(in browser)/server side) (valid email + TLD, valid username, no duplicates on emails/usernames, password complexity, min/max field sizes) [UI + API constraints]
+- successful registration with "Google" button
+- successful registration with "Facebook" button
+- after registering with email manually, user can still log in with same email but through "Google" button. (NEED TO VERIFY WHAT IS EXPECTED)
+
+
+- fields constraints validations (client side(in browser)/server side) (valid email + TLD, valid username, no duplicates on emails/usernames, password complexity, min/max field sizes, spaces before/after) [UI + API constraints]
 - expected time to get verification email (1/2/5/10 mins)
-    
+
+### 1.1) Log in for existing user
+- cant log in if password empty
+- cant log in if password wrong
+
+
 ### 2) user verification
 
 - if there is a verification code:
-    - validate cant use another code
-    - try registrating twice with same email. if expectable, verify previous code invalidates when registrating second time.
-    - if option to resend verification code, verify that after resend, the first code is invalid (if expected).
+    - validate cant use another random string/int
+    - try registrating twice with same email. Verify the system handles that a registration is in process.
+    - After resend of OTP code, assert the first code is invalid.
     - start registering with 2 different emails, validate that verification code for one email is not valid for the other email.
-    - verification code is not accepted after it's expired (if it has expiration)
+    - verification code is not accepted after it's expired
 
 ### 3) password reset
 - cant use old password after reseting
-- cant reset password for non registered emails/usernames
-- ? password reset for registered and non confirmed emails/users
+- password cant be reset for registered and not OTP confirmed emails
 - (? if acount deletion possible) cant reset password after deleting user
+- if user is logged in at a session, and in another session he resets the password of the same email, it terminates all open sessions (VERIFY THIS IS THE EXPECTED BEHAVIOR)
 
 ### 4) automatic logout during login on different session
+- if user is logged in at a browser session and in another session he is logging in again with same email, the first session/token will be terminated. (VERIFY THIS IS THE EXPECTED BEHAVIOR)
+- if user is logged in and open a new tab of the same logged in account, if he logs out in one tab, it will terminate the other tab as well
+
+
+### 5) Extras
+- a logged in user that logs out presses the go back page, wont be logged in again.
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 2) Product Search and Filtering
++ Search result accuracy
++ functionality of filter options
++ results are aligned with expected data
+
+<br>
+
+- When making the same search query, the results and their order stay the same.
+- drop down in search field is the same as "Discover Products Matching *****"
+w
+
+### Filters
+#### Individual filters checks
+First we will check every filter by itself (then we will test filter combinations)
+
+- price filter low to high works
+- price filter high to low works
+
+- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## 3) Product Detail Page
++ verify the display of 
+    + product images
+    + descriptions
+    + prices
+    + user reviews
+
+<br>
+
+- hovering over images and move to image corners -> zoomed in popup
+    - use mouse scroll to zoom more in/out
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## 4) Cart Operations
@@ -55,6 +179,14 @@ options:
 
 
 ## 6) Compatibility and Performance
+
+
+# Things to verify
+- is it possible to brute force the OTP code? will the API block/rate limit users that try to brute force it? (better create a clickable link that is more random?)
+
+
+---
+
 
 
 # Suggestions and improvements
