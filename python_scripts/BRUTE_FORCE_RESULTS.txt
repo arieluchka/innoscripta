@@ -1,0 +1,23 @@
+C:\personal\projects\FOR_INTERVIEWS\innoscripta\.venv\Scripts\python.exe C:\personal\projects\FOR_INTERVIEWS\innoscripta\python_scripts\maximum_performance_brute_force.py 
+🚀 MAXIMUM PERFORMANCE OTP Brute Force Testing
+============================================================
+📧 Target: ariel.agra.archive@gmail.com
+🎯 Available approaches:
+1. Ultra-threading (200+ threads)
+2. Multiprocessing + Threading hybrid
+3. Async extreme concurrency (1000+ connections)
+4. Intelligent auto-scaling
+============================================================
+
+🧵 Testing Ultra-Threading Approach (300 threads)
+--------------------------------------------------
+🧵 ULTRA-THREADING: 300 concurrent threads
+⚡ Progress: 86.7% | 13,000/15,001 attempts | 209 OTPs/sec | 62.2s elapsed
+🎉 SUCCESS: 868742 | 66.6s | 211/sec
+
+📊 ULTRA-THREADING RESULTS:
+⏱️  Total Execution Time: 66.67 seconds (1.11 minutes)
+🎯 Result: ✅ SUCCESS - 868742
+🚀 Overall Performance: 225.0 OTPs/second
+
+Process finished with exit code 0
