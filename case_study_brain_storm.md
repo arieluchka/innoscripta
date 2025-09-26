@@ -3,6 +3,10 @@ user1:
     email: ariel.agra.archive@gmail.com
     password: Aa123!9fas
     new: qwerty_123!A
+    new new: Aa12345!B
+
+    x1: Example!123
+    x2: NewExample321!
 
 user2:
     email: ariel.agra@gmail.com
@@ -53,8 +57,13 @@ options:
 ### 3) password reset
 - cant use old password after reseting
 - password cant be reset for registered and not OTP confirmed emails
-- (? if acount deletion possible) cant reset password after deleting user
+- (? if account deletion possible) cant reset password after deleting user
 - if user is logged in at a session, and in another session he resets the password of the same email, it terminates all open sessions (VERIFY THIS IS THE EXPECTED BEHAVIOR)
+- if password reset began and another one began later, the first OTP invalidates
+- if password reset is completed, the OTP cant be used to reset it again
+- cant use another users OTP reset code to reset another emails password
+
+
 
 ### 4) automatic logout during login on different session
 - if user is logged in at a browser session and in another session he is logging in again with same email, the first session/token will be terminated. (VERIFY THIS IS THE EXPECTED BEHAVIOR)
