@@ -1,3 +1,11 @@
+## TechShopBD - Case Study
+
+
+
+Documented bugs can be found [here](bugs/bug_reports.md).
+
+Suggestions for improvements can be found [here](Improvements/improvements.md).
+
 Critical Bugs:
 1) The OTP code on password resets can be easily bruteforced to hack into existing accounts.
 

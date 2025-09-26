@@ -37,6 +37,8 @@ The text underneath has no added value, and instead we can move the 120s time to
 
 After user starts signup process, he cant edit the email.
 
+He needs to quit the registration and start it all over, if he wants to fix the email.
+
 <video controls src="evidences/Registration and login/cant change email.mp4" title="Title"></video>
 
 </details>

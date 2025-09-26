@@ -11,6 +11,30 @@
 
 ---
 
+## 🚨 Critical 🚨
+
+<details>
+<summary><h2> Brute forcing Password Change 🌶️🌶️🌶️🌶️🌶️</h2></summary>
+
+The OTP code received on registration/password change is always 6 digits, (meaning at most 1,000,000 options).
+
+When using the site and abusing/spamming/running DoS scripts, i didn't face any rate limits/blocks/timeouts.
+
+No matter how much a user inputs the wrong OTP code during password reset, the code is not expired, which means an attacker can try as many times as he wants to guess the OTP code, to reset a password (in a 10 minute time frame)
+
+(video demonstraing how even after many wrong guessm the original OTP can still be used)
+
+<video controls src="OTP will not expire on wrong guesses.mp4" title="Title"></video>
+
+#### PoC using a python script
+I used an AI to generate a Proof of Concept script that spans many threads to parallelly send API requests for a password reset confirmation, and could successfully brute force a password change for my account multiple times.
+
+The script can be found in the [python_scripts folder](../python_scripts/maximum_performance_brute_force.py).
+
+(do note that it is not fully optimize, and is a PoC ONLY! but as long as the OTP is not disabled and an account is not blocked, it is 100% an attack vector)
+
+</details>
+
 ## Registration and login 
 
 <details>
